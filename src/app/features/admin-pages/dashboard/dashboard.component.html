@@ -1,0 +1,100 @@
+<div class="dashboard-container">
+  <app-sidebar></app-sidebar>
+
+ <div class="main-content">
+  <app-appbar [username]="'roayaaa'" [role]="'Admin'"></app-appbar>
+
+  <!-- Welcome Section -->
+  <section class="welcome">
+    <h2>Welcome back, roayaaa! 👋</h2>
+    <p>Here's an overview of your lab equipment inventory</p>
+    <button class="add-btn" (click)="openAddForm()">+ Add Equipment</button>
+  </section>
+    <!-- Stats Section -->
+    <section class="stats">
+      <div class="stat-card total">
+        <h3>Total Equipment</h3>
+        <span>{{totalEquipment}}</span>
+      </div>
+      <div class="stat-card available">
+        <h3>Available</h3>
+        <span>{{available}}</span>
+      </div>
+      <div class="stat-card in-use">
+        <h3>In Use</h3>
+        <span>{{inUse}}</span>
+      </div>
+      <div class="stat-card maintenance">
+        <h3>Maintenance</h3>
+        <span>{{maintenance}}</span>
+      </div>
+    </section>
+
+    <!-- Equipment Table -->
+    <section class="equipment-table">
+      <input type="text" placeholder="Search by name, serial number, or location..." [(ngModel)]="searchTerm">
+
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Category</th>
+            <th>Serial Number</th>
+            <th>Location</th>
+            <th>Condition</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let eq of filteredEquipments">
+            <td>{{eq.name}}</td>
+            <td>{{eq.category}}</td>
+            <td>{{eq.serialNumber}}</td>
+            <td>{{eq.location}}</td>
+            <td>
+              <span [ngClass]="{
+                'available': eq.condition === 'Available',
+                'in-use': eq.condition === 'In Use',
+                'maintenance': eq.condition === 'Under Repair'
+              }">{{eq.condition}}</span>
+            </td>
+            <td>
+              <button class="edit" (click)="openEditForm(eq)">✏️</button>
+              <button class="delete" (click)="deleteEquipment(eq)">🗑️</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+   <!-- Add/Edit Popup Modal -->
+<section class="equipment-form" *ngIf="isAddingEquipment || editingEquipment">
+  <form (ngSubmit)="editingEquipment ? updateEquipment() : addEquipment()">
+    <h3>{{ editingEquipment ? 'Edit Equipment' : 'Add New Equipment' }}</h3>
+
+    <label>Name:</label>
+    <input type="text" [(ngModel)]="formData.name" name="name" required>
+
+    <label>Category:</label>
+    <input type="text" [(ngModel)]="formData.category" name="category">
+
+    <label>Serial Number:</label>
+    <input type="text" [(ngModel)]="formData.serialNumber" name="serialNumber" required>
+
+    <label>Location:</label>
+    <input type="text" [(ngModel)]="formData.location" name="location">
+
+    <label>Condition:</label>
+    <select [(ngModel)]="formData.condition" name="condition">
+      <option value="Available">Available</option>
+      <option value="In Use">In Use</option>
+      <option value="Under Repair">Under Repair</option>
+    </select>
+
+    <button type="submit">{{ editingEquipment ? 'Update' : 'Add' }}</button>
+    <button type="button" (click)="cancelForm()">Cancel</button>
+  </form>
+</section>
+
+  </div>
+</div>

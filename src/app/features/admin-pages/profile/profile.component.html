@@ -1,0 +1,76 @@
+<div class="profile-container">
+  <app-sidebar></app-sidebar>
+
+  <div class="profile-main">
+    <!-- Reuse existing Appbar -->
+    <app-appbar [username]="'roayaaa'" [role]="'Admin'"></app-appbar>
+
+    <!-- Profile Card -->
+    <div class="profile-card">
+<div class="profile-header">
+  <div class="avatar-details">
+
+    <!-- Clickable Avatar -->
+    <div class="avatar-big" (click)="triggerFileInput(fileInput)">
+      <img *ngIf="profile.imageUrl; else defaultIcon" 
+           [src]="profile.imageUrl" 
+           alt="Profile Image">
+      
+      <ng-template #defaultIcon>
+        👤
+      </ng-template>
+
+      <div class="overlay">Change</div>
+    </div>
+
+    <!-- Hidden file input -->
+    <input type="file"
+           #fileInput
+           hidden
+           accept="image/*"
+           (change)="onImageSelected($event)">
+
+    <div class="user-details">
+      <h3>{{profile.fullName}}</h3>
+      <span>{{profile.role}}</span>
+    </div>
+  </div>
+
+  <button class="edit-btn">Edit Profile</button>
+</div>
+
+
+
+      <!-- Profile Information -->
+      <div class="profile-section">
+        <h4>Profile Information</h4>
+        <label>Full Name</label>
+        <input type="text" [ngModel]="profile.fullName" (ngModelChange)="profile.fullName = $event" placeholder="Full Name">
+
+        <label>Email Address</label>
+        <input type="email" [ngModel]="profile.email" (ngModelChange)="profile.email = $event" placeholder="Email Address">
+      </div>
+
+      <!-- Change Password -->
+      <div class="profile-section">
+        <h4>Change Password</h4>
+        <label>Current Password</label>
+        <input type="password" [ngModel]="profile.currentPassword" (ngModelChange)="profile.currentPassword = $event">
+
+        <label>New Password</label>
+        <input type="password" [ngModel]="profile.newPassword" (ngModelChange)="profile.newPassword = $event">
+
+        <label>Confirm New Password</label>
+        <input type="password" [ngModel]="profile.confirmPassword" (ngModelChange)="profile.confirmPassword = $event">
+
+        <button class="update-password">Update Password</button>
+
+        <ul class="password-requirements">
+          <li>✔ At least 8 characters</li>
+          <li>✔ Upper & lowercase letters</li>
+          <li>✔ Contains a number</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,84 @@
+/* Sidebar container */
+.sidebar {
+  width: 240px; /* slightly wider for larger logo */
+  background-color: #f8f9fa;
+  min-height: 100vh;
+  padding: 30px 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: 2px 0 12px rgba(0, 0, 0, 0.1);
+  border-right: 1px solid #e0e0e0;
+    font-family:serif;
+
+}
+
+/* Logo section - horizontal layout */
+.logo {
+  display: flex;
+  flex-direction: row; /* image and text side by side */
+  align-items: center; /* vertically center the text with image */
+  margin-bottom: 50px; /* more spacing below */
+}
+
+/* Logo image */
+.logo .image {
+  width: 90px;  /* bigger logo */
+  height: 90px;
+  margin-right: 15px; /* spacing between image and text */
+  object-fit: contain;
+  border-radius: 12px; /* subtle rounded corners */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* subtle shadow for logo */
+}
+
+/* Logo text */
+.logo h2 {
+  font-size: 20px; /* bigger text */
+  font-weight: bold;
+  color: #333;
+  margin: 0;
+  line-height: 1.2;
+  font-family:serif;
+}
+
+/* Sidebar menu */
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  flex-grow: 1;
+}
+
+li {
+  display: flex;
+  align-items: center;
+  padding: 14px 16px; /* slightly bigger padding */
+  border-radius: 10px;
+  margin-bottom: 14px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 16px;
+  color: #555;
+}
+
+li .icon {
+  margin-right: 12px;
+  font-size: 20px;
+}
+
+/* Hover and active states */
+li:hover, li.active {
+  background-color: #007bff;
+  color: #fff;
+  transform: translateX(3px);
+  box-shadow: 0 2px 6px rgba(0, 123, 255, 0.3);
+}
+
+/* Version label */
+.version {
+  font-size: 12px;
+  color: #999;
+  text-align: center;
+  padding-top: 20px;
+  border-top: 1px solid #e0e0e0;
+}

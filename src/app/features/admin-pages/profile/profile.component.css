@@ -1,0 +1,151 @@
+.profile-container {
+  display: flex;
+  font-family: 'Arial', sans-serif;
+}
+
+.profile-main {
+  flex: 1;
+  padding: 20px;
+  background: #f0f2f5;
+  min-height: 100vh;
+}
+
+/* Profile Card */
+.profile-card {
+  background: white;
+  border-radius: 12px;
+  padding: 25px;
+  margin-top: 20px;
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+}
+
+/* Profile Header */
+.profile-header {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start; /* Align everything to the left */
+  gap: 15px; /* Space between avatar and user details */
+  margin-bottom: 20px;
+}
+
+.avatar-big {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background-color: #007bff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 32px;
+  color: white;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.avatar-big img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.avatar-big:hover {
+  transform: scale(1.05);
+}
+
+/* Overlay effect */
+.overlay {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  color: white;
+  font-size: 12px;
+  text-align: center;
+  padding: 4px 0;
+  opacity: 0;
+  transition: 0.3s ease;
+}
+
+.avatar-big:hover .overlay {
+  opacity: 1;
+}
+
+
+.user-details {
+  display: flex;
+  flex-direction: column; /* Stack name and role vertically */
+  justify-content: center;
+}
+
+.user-details h3 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.user-details span {
+  font-size: 14px;
+  color: gray;
+}
+
+.edit-btn {
+  padding: 8px 16px;
+  background-color: #007bff;
+  border: none;
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+/* Profile Sections */
+.profile-section {
+  margin-top: 20px;
+}
+
+.profile-section h4 {
+  margin-bottom: 10px;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.profile-section label {
+  display: block;
+  margin-top: 10px;
+  margin-bottom: 5px;
+  font-size: 14px;
+}
+
+.profile-section input {
+  width: 100%;
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+}
+
+.update-password {
+  margin-top: 15px;
+  padding: 10px 15px;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.password-requirements {
+  list-style: none;
+  padding-left: 0;
+  margin-top: 10px;
+  color: #28a745;
+  font-size: 13px;
+}
+
+.password-requirements li {
+  margin-bottom: 5px;
+}

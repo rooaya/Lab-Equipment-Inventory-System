@@ -1,0 +1,93 @@
+.main-content {
+  flex: 1;
+  padding: 30px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+header h1 {
+  font-size: 28px;
+  font-weight: 700;
+}
+
+header .user .logout {
+  background-color: #dc3545;
+  color: #fff;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+header .user .logout:hover {
+  background-color: #c82333;
+}
+
+.users-section {
+  background: #fff;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.users-section p {
+  font-size: 16px;
+  margin-bottom: 15px;
+}
+
+.add-btn {
+  float: right;
+  margin-top: -40px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.add-btn:hover { background-color: #0056b3; }
+
+.users-section input {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 20px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+  padding: 14px 10px;
+  text-align: left;
+  border-bottom: 1px solid #eee;
+}
+
+td span.pending { background: #fff3cd; color: #856404; padding: 4px 8px; border-radius: 6px; }
+td span.active { background: #d4edda; color: #155724; padding: 4px 8px; border-radius: 6px; }
+td span.blocked { background: #f8d7da; color: #721c24; padding: 4px 8px; border-radius: 6px; }
+
+button.delete {
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-size: 16px;
+  color: #dc3545;
+}
+
+.empty-text {
+  text-align: center;
+  color: #888;
+  padding: 20px 0;
+  font-style: italic;
+}
