@@ -5,7 +5,7 @@
     <header>
       <h1>All Users</h1>
       <div class="user">
-        <span>roaya youssef</span> | Admin 
+        <span>roaya youssef</span> | Admin
         <button class="logout">Logout</button>
       </div>
     </header>
@@ -35,7 +35,7 @@
               'active': user.status === 'Active',
               'blocked': user.status === 'Blocked'
             }">{{user.status}}</span></td>
-            <td>{{user.dateJoined}}</td>
+            <td>{{user.dateJoined | date : 'mediumDate'}}</td>
             <td>
               <button class="delete">🗑️</button>
             </td>

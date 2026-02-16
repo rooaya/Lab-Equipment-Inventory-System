@@ -1,7 +1,14 @@
+.dashboard-container {
+  display: flex;
+  font-family: serif;
+}
+
 .main-content {
   flex: 1;
   padding: 30px;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: #f0f2f5;
+  min-height: 100vh;
 }
 
 header {
@@ -33,7 +40,7 @@ header .user .logout:hover {
   background: #fff;
   padding: 25px;
   border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
 .users-section p {
@@ -52,7 +59,9 @@ header .user .logout:hover {
   cursor: pointer;
 }
 
-.add-btn:hover { background-color: #0056b3; }
+.add-btn:hover {
+  background-color: #0056b3;
+}
 
 .users-section input {
   width: 100%;
@@ -67,15 +76,33 @@ table {
   border-collapse: collapse;
 }
 
-th, td {
+th,
+td {
   padding: 14px 10px;
   text-align: left;
   border-bottom: 1px solid #eee;
 }
 
-td span.pending { background: #fff3cd; color: #856404; padding: 4px 8px; border-radius: 6px; }
-td span.active { background: #d4edda; color: #155724; padding: 4px 8px; border-radius: 6px; }
-td span.blocked { background: #f8d7da; color: #721c24; padding: 4px 8px; border-radius: 6px; }
+td span.pending {
+  background: #fff3cd;
+  color: #856404;
+  padding: 4px 8px;
+  border-radius: 6px;
+}
+
+td span.active {
+  background: #d4edda;
+  color: #155724;
+  padding: 4px 8px;
+  border-radius: 6px;
+}
+
+td span.blocked {
+  background: #f8d7da;
+  color: #721c24;
+  padding: 4px 8px;
+  border-radius: 6px;
+}
 
 button.delete {
   border: none;

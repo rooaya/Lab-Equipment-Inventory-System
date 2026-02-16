@@ -1,0 +1,27 @@
+<div class="overlay" *ngIf="open" (click)="onBackdropClick()">
+  <div class="dialog" (click)="$event.stopPropagation()">
+    <div class="head">
+      <h3>{{ title }}</h3>
+      <button class="x" type="button" (click)="closed.emit()">✕</button>
+    </div>
+
+    <div class="body">
+      <p>{{ message }}</p>
+    </div>
+
+    <div class="actions">
+      <button
+        *ngIf="showCancel"
+        class="btn secondary"
+        type="button"
+        (click)="onCancel()"
+      >
+        {{ cancelText }}
+      </button>
+
+      <button class="btn primary" type="button" (click)="onConfirm()">
+        {{ confirmText }}
+      </button>
+    </div>
+  </div>
+</div>

@@ -12,6 +12,9 @@ import { HttpClient } from '@angular/common/http';
 import { AllUsersComponent } from './features/admin-pages/all-users/all-users.component';
 import { AppbarComponent } from './shared/components/appbar/appbar.component';
 import { ProfileComponent } from './features/admin-pages/profile/profile.component';
+import { HomeComponent } from './features/user-pages/home/home.component';
+import { UserProfileComponent } from './features/user-pages/profile/profile.component';
+import { DialogComponent } from './shared/components/dialog/dialog.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -19,8 +22,11 @@ import { ProfileComponent } from './features/admin-pages/profile/profile.compone
     DashboardComponent,
     AllUsersComponent,
     AppbarComponent,
-    ProfileComponent
-    
+    ProfileComponent,
+    HomeComponent,
+    UserProfileComponent,
+    DialogComponent
+
   ],
   imports: [
     BrowserModule,
@@ -28,7 +34,7 @@ import { ProfileComponent } from './features/admin-pages/profile/profile.compone
     FormsModule,
     CommonModule,
     BrowserModule
-  
+
 
   ],
   providers: [],

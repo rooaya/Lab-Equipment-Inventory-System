@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Equipment } from '../../../core/models/equipment';
 import { SidebarComponent } from '../../../shared/components/sidebar/sidebar.component';
 import { FormsModule } from '@angular/forms';
+import { EquipmentService } from '../../../core/services/equipment-store.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -10,18 +11,16 @@ import { FormsModule } from '@angular/forms';
   styleUrls: ['./dashboard.component.css'],
 })
 export class DashboardComponent {
-searchTerm = '';
-editingEquipment: Equipment | null = null;
-formData: Equipment = { name: '', category: '', serialNumber: '', location: '', condition: 'Available' };
-isAddingEquipment: boolean = false;
+  searchTerm = '';
+  editingEquipment: Equipment | null = null;
+  formData: Equipment = { name: '', category: '', serialNumber: '', location: '', condition: 'Available' };
+  isAddingEquipment: boolean = false;
 
-  equipments: Equipment[] = [
-    { name: 'Microscope BX-500', category: 'Microscopy', serialNumber: 'MS-2023-001', location: 'Lab A', condition: 'Available' },
-    { name: 'Centrifuge Pro 3000', category: 'Centrifuges', serialNumber: 'CF-2023-045', location: 'Lab B', condition: 'In Use' },
-    { name: 'PCR Machine Thermal', category: 'Molecular', serialNumber: 'PCR-2022-112', location: 'Lab A', condition: 'Available' },
-    { name: 'Spectrophotometer UV', category: 'Spectroscopy', serialNumber: 'SP-2023-089', location: 'Lab C', condition: 'Under Repair' },
-    { name: 'Incubator Shaker', category: 'General Lab', serialNumber: 'INC-2023-022', location: 'Lab B', condition: 'Available' }
-  ];
+  constructor(private readonly equipmentService: EquipmentService) { }
+
+  get equipments(): Equipment[] {
+    return this.equipmentService.getAll();
+  }
 
   // Stats
   get totalEquipment() { return this.equipments.length; }
@@ -39,54 +38,47 @@ isAddingEquipment: boolean = false;
     );
   }
 
-  // Delete equipment
-  deleteEquipment(equipment: Equipment) {
+    deleteEquipment(equipment: Equipment) {
     if (confirm(`Are you sure you want to delete ${equipment.name}?`)) {
-      this.equipments = this.equipments.filter(eq => eq !== equipment);
+      this.equipmentService.removeBySerialNumber(equipment.serialNumber);
     }
   }
 
-  // Open add modal
-openAddForm() {
-  this.formData = { name: '', category: '', serialNumber: '', location: '', condition: 'Available' };
-  this.isAddingEquipment = true;
-  this.editingEquipment = null;
-}
-
-// Open edit modal
-openEditForm(equipment: Equipment) {
-  this.formData = { ...equipment }; // copy data to form
-  this.editingEquipment = equipment;
-  this.isAddingEquipment = true;
-}
-
-// Add new equipment
-addEquipment() {
-  if (!this.formData.name || !this.formData.serialNumber) {
-    alert('Please enter all required fields!');
-    return;
+  openAddForm() {
+    this.formData = { name: '', category: '', serialNumber: '', location: '', condition: 'Available' };
+    this.isAddingEquipment = true;
+    this.editingEquipment = null;
   }
-  this.equipments.push({ ...this.formData });
-  this.isAddingEquipment = false;
-}
 
-// Update existing equipment
-updateEquipment() {
-  if (!this.editingEquipment) return;
-  const index = this.equipments.findIndex(eq => eq.serialNumber === this.editingEquipment!.serialNumber);
-  if (index !== -1) {
-    this.equipments[index] = { ...this.formData };
+  openEditForm(equipment: Equipment) {
+    this.formData = { ...equipment };
+    this.editingEquipment = equipment;
+    this.isAddingEquipment = true;
+  }
+
+  addEquipment() {
+    if (!this.formData.name || !this.formData.serialNumber) {
+      alert('Please enter all required fields!');
+      return;
+    }
+    this.equipmentService.add({ ...this.formData });
+    this.isAddingEquipment = false;
+  }
+
+  // Update existing equipment
+  updateEquipment() {
+    if (!this.editingEquipment) return;
+    this.equipmentService.updateBySerialNumber(this.editingEquipment.serialNumber, { ...this.formData });
     this.isAddingEquipment = false;
     this.editingEquipment = null;
   }
-}
 
-// Cancel modal
-cancelForm() {
-  this.isAddingEquipment = false;
-  this.editingEquipment = null;
-  this.formData = { name: '', category: '', serialNumber: '', location: '', condition: 'Available' };
-}
+  // Cancel modal
+  cancelForm() {
+    this.isAddingEquipment = false;
+    this.editingEquipment = null;
+    this.formData = { name: '', category: '', serialNumber: '', location: '', condition: 'Available' };
+  }
 }
 
 

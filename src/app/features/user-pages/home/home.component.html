@@ -1,0 +1,133 @@
+<div class="page">
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M10 2h4" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+          <path d="M12 2v6" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+          <path d="M7 22h10" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+          <path d="M8 16l2.5-7.5h3L16 16" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+            stroke-linejoin="round" />
+          <path d="M9 19h6" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+        </svg>
+      </div>
+      <div class="brand-title">Lab Equipment</div>
+    </div>
+
+    <div class="topbar-actions">
+      <div class="user">
+        <span class="user-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M20 21a8 8 0 10-16 0" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+            <path d="M12 12a4 4 0 100-8 4 4 0 000 8z" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+              stroke-linejoin="round" />
+          </svg>
+        </span>
+        <span class="user-name">User</span>
+      </div>
+      <button class="logout" type="button" (click)="logout()">Logout</button>
+    </div>
+  </header>
+
+  <nav class="tabs">
+    <a class="tab" routerLink="/home" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+      Equipment List
+    </a>
+    <a class="tab" routerLink="/user-profile" routerLinkActive="active">Profile</a>
+  </nav>
+
+  <main class="content">
+    <section class="equipment">
+      <div class="heading">
+        <h2>Equipment List</h2>
+        <p>Browse available lab equipment</p>
+      </div>
+
+      <div class="filters">
+        <div class="search">
+          <span class="search-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M11 19a8 8 0 100-16 8 8 0 000 16z" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round" />
+              <path d="M21 21l-4.3-4.3" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+            </svg>
+          </span>
+          <input type="text" placeholder="Search equipment by name or category..." [(ngModel)]="searchTerm" />
+        </div>
+
+        <div class="selects">
+          <select [(ngModel)]="selectedCategory">
+            <option *ngFor="let c of categories" [value]="c">{{ c }}</option>
+          </select>
+
+          <select [(ngModel)]="selectedCondition">
+            <option *ngFor="let c of conditions" [value]="c">{{ c }}</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="grid">
+        <article class="card" *ngFor="let item of filteredEquipments; trackBy: trackBySerial">
+          <div class="card-top">
+            <div class="cube" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 2l8 4.5v11L12 22l-8-4.5v-11L12 2z" stroke="currentColor" stroke-width="2"
+                  stroke-linejoin="round" />
+                <path d="M12 2v20" stroke="currentColor" stroke-width="2" />
+                <path d="M4 6.5l8 4.5 8-4.5" stroke="currentColor" stroke-width="2" stroke-linejoin="round" />
+              </svg>
+            </div>
+            <span class="badge" [ngClass]="{
+                available: item.condition === 'Available',
+                inUse: item.condition === 'In Use',
+                repair: item.condition === 'Under Repair'
+              }">
+              {{ item.condition }}
+            </span>
+          </div>
+
+          <h3 class="name">{{ item.name }}</h3>
+
+          <div class="meta">
+            <div class="meta-row">
+              <span class="meta-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M20 13l-7 7-11-11V2h7l11 11z" stroke="currentColor" stroke-width="2"
+                    stroke-linejoin="round" />
+                  <path d="M7.5 7.5h.01" stroke="currentColor" stroke-width="4" stroke-linecap="round" />
+                </svg>
+              </span>
+              <span>{{ item.category }}</span>
+            </div>
+            <div class="meta-row">
+              <span class="meta-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M12 22s7-5.2 7-12a7 7 0 10-14 0c0 6.8 7 12 7 12z" stroke="currentColor" stroke-width="2"
+                    stroke-linejoin="round" />
+                  <path d="M12 11a2 2 0 100-4 2 2 0 000 4z" stroke="currentColor" stroke-width="2"
+                    stroke-linejoin="round" />
+                </svg>
+              </span>
+              <span>{{ item.location }}</span>
+            </div>
+          </div>
+
+          <div class="actions">
+            <button class="btn secondary" type="button" (click)="viewDetails(item)">
+              View Details
+            </button>
+
+            <button class="btn primary" type="button" [disabled]="item.condition !== 'Available'"
+              (click)="requestEquipment(item)">
+              Request
+            </button>
+          </div>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <app-dialog [open]="dialogOpen" [title]="dialogTitle" [message]="dialogMessage" [confirmText]="dialogConfirmText"
+    [cancelText]="dialogCancelText" [showCancel]="dialogShowCancel" (closed)="closeDialog()"
+    (confirmed)="confirmDialog()" (cancelled)="cancelDialog()"></app-dialog>
+</div>
