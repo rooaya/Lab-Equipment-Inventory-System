@@ -5,6 +5,7 @@ import { AllUsersComponent } from './features/admin-pages/all-users/all-users.co
 import { ProfileComponent } from './features/admin-pages/profile/profile.component';
 import { HomeComponent } from './features/user-pages/home/home.component';
 import { UserProfileComponent } from './features/user-pages/profile/profile.component';
+import { RequestsComponent } from './features/admin-pages/requests/requests.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full'},
@@ -12,7 +13,8 @@ const routes: Routes = [
   { path: 'user-profile', component: UserProfileComponent },
   { path: 'dashboard', component: DashboardComponent },
   { path: 'users', component: AllUsersComponent },
-  { path: 'profile', component: ProfileComponent }
+  { path: 'profile', component: ProfileComponent },
+  {path:'requests',component:RequestsComponent}
 ];
 
 @NgModule({

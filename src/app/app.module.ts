@@ -15,6 +15,7 @@ import { ProfileComponent } from './features/admin-pages/profile/profile.compone
 import { HomeComponent } from './features/user-pages/home/home.component';
 import { UserProfileComponent } from './features/user-pages/profile/profile.component';
 import { DialogComponent } from './shared/components/dialog/dialog.component';
+import { RequestsComponent } from './features/admin-pages/requests/requests.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -25,7 +26,8 @@ import { DialogComponent } from './shared/components/dialog/dialog.component';
     ProfileComponent,
     HomeComponent,
     UserProfileComponent,
-    DialogComponent
+    DialogComponent,
+    RequestsComponent
 
   ],
   imports: [

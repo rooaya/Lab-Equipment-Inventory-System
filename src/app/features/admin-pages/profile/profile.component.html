@@ -1,76 +1,292 @@
-<div class="profile-container">
-  <app-sidebar></app-sidebar>
-
-  <div class="profile-main">
-    <!-- Reuse existing Appbar -->
-    <app-appbar [username]="'roayaaa'" [role]="'Admin'"></app-appbar>
-
-    <!-- Profile Card -->
-    <div class="profile-card">
-<div class="profile-header">
-  <div class="avatar-details">
-
-    <!-- Clickable Avatar -->
-    <div class="avatar-big" (click)="triggerFileInput(fileInput)">
-      <img *ngIf="profile.imageUrl; else defaultIcon" 
-           [src]="profile.imageUrl" 
-           alt="Profile Image">
-      
-      <ng-template #defaultIcon>
-        👤
-      </ng-template>
-
-      <div class="overlay">Change</div>
+<div class="page">
+  <header class="topbar">
+    <div class="brand">
+      <img src="/assets/WhatsApp_Image_2026-02-13_at_2.30.20_PM-removebg-preview.png" alt="Lab Equipment Logo" class="brand-logo">
+      <div class="brand-title">Lab Equipment Admin</div>
     </div>
 
-    <!-- Hidden file input -->
-    <input type="file"
-           #fileInput
-           hidden
-           accept="image/*"
-           (change)="onImageSelected($event)">
-
-    <div class="user-details">
-      <h3>{{profile.fullName}}</h3>
-      <span>{{profile.role}}</span>
+    <div class="topbar-actions">
+      <div class="user" routerLink="/profile" style="cursor: pointer;">
+        <span class="user-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M20 21a8 8 0 10-16 0" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+            <path d="M12 12a4 4 0 100-8 4 4 0 000 8z" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+              stroke-linejoin="round" />
+          </svg>
+        </span>
+        <span class="user-name">roayaaa</span>
+      </div>
+      <button class="logout" type="button">Logout</button>
     </div>
-  </div>
+  </header>
 
-  <button class="edit-btn">Edit Profile</button>
-</div>
+  <nav class="tabs">
+    <a class="tab" routerLink="/dashboard" routerLinkActive="active">Dashboard</a>
+    <a class="tab" routerLink="/users" routerLinkActive="active">Users</a>
+    <a class="tab" routerLink="/requests" routerLinkActive="active">Requests</a>
+  </nav>
 
+  <main class="content">
+    <div class="profile-grid">
+      <!-- Profile Card -->
+      <section class="profile-card">
+        <div class="profile-header">
+          <div class="avatar-section">
+            <div class="avatar-container" (click)="triggerFileInput(fileInput)">
+              <div class="avatar" [ngClass]="{ 'has-image': profile.imageUrl }">
+                <img *ngIf="profile.imageUrl; else defaultIcon" 
+                     [src]="profile.imageUrl" 
+                     alt="Profile Image"
+                     class="avatar-img">
+                
+                <ng-template #defaultIcon>
+                  <span class="avatar-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M20 21a8 8 0 10-16 0" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                      <path d="M12 12a4 4 0 100-8 4 4 0 000 8z" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round" />
+                    </svg>
+                  </span>
+                </ng-template>
+              </div>
+              <div class="avatar-overlay">
+                <span class="camera-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                    <circle cx="12" cy="13" r="4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                  </svg>
+                </span>
+                <span>Change Photo</span>
+              </div>
+            </div>
+            <input type="file"
+                   #fileInput
+                   hidden
+                   accept="image/*"
+                   (change)="onImageSelected($event)">
+          </div>
 
+          <div class="user-info">
+            <h2 class="user-name">{{profile.fullName}}</h2>
+            <div class="user-role">
+              <span class="role-badge">{{profile.role}}</span>
+            </div>
+            <div class="user-stats">
+              <div class="stat">
+                <span class="stat-value">Admin</span>
+                <span class="stat-label">Role</span>
+              </div>
+              <div class="stat">
+                <span class="stat-value">Active</span>
+                <span class="stat-label">Status</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
 
       <!-- Profile Information -->
-      <div class="profile-section">
-        <h4>Profile Information</h4>
-        <label>Full Name</label>
-        <input type="text" [ngModel]="profile.fullName" (ngModelChange)="profile.fullName = $event" placeholder="Full Name">
+      <section class="info-card">
+        <div class="card-header">
+          <h3 class="card-title">
+            <span class="title-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </span>
+            Personal Information
+          </h3>
+          <button class="btn primary" (click)="saveProfile()">
+            <span class="btn-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                <path d="M17 21v-8H7v8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                <path d="M7 3v5h8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </span>
+            Save Changes
+          </button>
+        </div>
 
-        <label>Email Address</label>
-        <input type="email" [ngModel]="profile.email" (ngModelChange)="profile.email = $event" placeholder="Email Address">
-      </div>
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="fullName">Full Name</label>
+            <input type="text" 
+                   id="fullName"
+                   [ngModel]="profile.fullName" 
+                   (ngModelChange)="profile.fullName = $event" 
+                   placeholder="Enter your full name"
+                   class="form-input">
+          </div>
 
-      <!-- Change Password -->
-      <div class="profile-section">
-        <h4>Change Password</h4>
-        <label>Current Password</label>
-        <input type="password" [ngModel]="profile.currentPassword" (ngModelChange)="profile.currentPassword = $event">
+          <div class="form-group">
+            <label for="email">Email Address</label>
+            <input type="email" 
+                   id="email"
+                   [ngModel]="profile.email" 
+                   (ngModelChange)="profile.email = $event" 
+                   placeholder="Enter your email"
+                   class="form-input">
+          </div>
 
-        <label>New Password</label>
-        <input type="password" [ngModel]="profile.newPassword" (ngModelChange)="profile.newPassword = $event">
+          <div class="form-group">
+            <label for="phone">Phone Number</label>
+            <input type="tel" 
+                   id="phone"
+                   placeholder="Enter your phone number"
+                   class="form-input">
+          </div>
 
-        <label>Confirm New Password</label>
-        <input type="password" [ngModel]="profile.confirmPassword" (ngModelChange)="profile.confirmPassword = $event">
+          <div class="form-group">
+            <label for="department">Department</label>
+            <select id="department" class="form-select">
+              <option>Laboratory</option>
+              <option>Research</option>
+              <option>Quality Control</option>
+              <option>Administration</option>
+            </select>
+          </div>
+        </div>
+      </section>
 
-        <button class="update-password">Update Password</button>
+      <!-- Security Settings -->
+      <section class="security-card">
+        <div class="card-header">
+          <h3 class="card-title">
+            <span class="title-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </span>
+            Security Settings
+          </h3>
+        </div>
 
-        <ul class="password-requirements">
-          <li>✔ At least 8 characters</li>
-          <li>✔ Upper & lowercase letters</li>
-          <li>✔ Contains a number</li>
-        </ul>
-      </div>
+        <div class="password-section">
+          <div class="form-group">
+            <label for="currentPassword">Current Password</label>
+            <input type="password" 
+                   id="currentPassword"
+                   [ngModel]="profile.currentPassword" 
+                   (ngModelChange)="profile.currentPassword = $event"
+                   placeholder="Enter current password"
+                   class="form-input">
+          </div>
+
+          <div class="form-group">
+            <label for="newPassword">New Password</label>
+            <input type="password" 
+                   id="newPassword"
+                   [ngModel]="profile.newPassword" 
+                   (ngModelChange)="profile.newPassword = $event"
+                   placeholder="Enter new password"
+                   class="form-input">
+          </div>
+
+          <div class="form-group">
+            <label for="confirmPassword">Confirm New Password</label>
+            <input type="password" 
+                   id="confirmPassword"
+                   [ngModel]="profile.confirmPassword" 
+                   (ngModelChange)="profile.confirmPassword = $event"
+                   placeholder="Confirm new password"
+                   class="form-input">
+          </div>
+
+          <div class="password-requirements">
+            <h4>Password Requirements:</h4>
+            <div class="requirements-list">
+              <div class="requirement" [ngClass]="{ 'met': meetsRequirement('length') }">
+                <span class="check-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M9 12l2 2 4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                    <path d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                  </svg>
+                </span>
+                At least 8 characters
+              </div>
+              <div class="requirement" [ngClass]="{ 'met': meetsRequirement('case') }">
+                <span class="check-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M9 12l2 2 4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                    <path d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                  </svg>
+                </span>
+                Upper & lowercase letters
+              </div>
+              <div class="requirement" [ngClass]="{ 'met': meetsRequirement('number') }">
+                <span class="check-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M9 12l2 2 4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                    <path d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                  </svg>
+                </span>
+                Contains a number
+              </div>
+            </div>
+          </div>
+
+          <button class="btn primary full-width" (click)="updatePassword()">
+            <span class="btn-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </span>
+            Update Password
+          </button>
+        </div>
+      </section>
+
+      <!-- Activity Card -->
+      <section class="activity-card">
+        <div class="card-header">
+          <h3 class="card-title">
+            <span class="title-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </span>
+            Recent Activity
+          </h3>
+        </div>
+
+        <div class="activity-list">
+          <div class="activity-item">
+            <div class="activity-icon">
+              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M9 12l2 2 4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                <path d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </div>
+            <div class="activity-content">
+              <p class="activity-title">Profile updated</p>
+              <p class="activity-time">2 hours ago</p>
+            </div>
+          </div>
+          <div class="activity-item">
+            <div class="activity-icon">
+              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 2v6m0 4v10m0-4l-3-3m3 3l3-3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </div>
+            <div class="activity-content">
+              <p class="activity-title">Added new equipment</p>
+              <p class="activity-time">1 day ago</p>
+            </div>
+          </div>
+          <div class="activity-item">
+            <div class="activity-icon">
+              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </div>
+            <div class="activity-content">
+              <p class="activity-title">Password changed</p>
+              <p class="activity-time">3 days ago</p>
+            </div>
+          </div>
+        </div>
+      </section>
     </div>
-  </div>
+  </main>
 </div>

@@ -1,10 +1,9 @@
 export interface User {
-    id:number;
+    id: number;
     fullName: string;
-    email:string;
-    password:string;
-    status:String;
-    dateJoined:Date;
-
-    role:'Admin'|'User';
+    email: string;
+    password: string;
+    status: string;
+    dateJoined: Date;
+    role: 'Admin' | 'User';
 }

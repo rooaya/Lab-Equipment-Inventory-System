@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { Equipment } from '../../../core/models/equipment';
 import { EquipmentService } from '../../../core/services/equipment-store.service';
 
@@ -23,7 +24,7 @@ export class HomeComponent {
   dialogShowCancel = false;
   private dialogOnConfirm: (() => void) | null = null;
 
-  constructor(private readonly equipmentService: EquipmentService) { }
+  constructor(private readonly equipmentService: EquipmentService, private router: Router) { }
 
   get equipments(): Equipment[] {
     return this.equipmentService.getAll();
@@ -70,7 +71,15 @@ export class HomeComponent {
       return;
     }
 
-    this.openInfoDialog('Request Sent', `Request sent for: ${item.name}`);
+    // Navigate to requests page with equipment details
+    this.router.navigate(['/requests'], { 
+      queryParams: {
+        equipmentName: item.name,
+        category: item.category,
+        serialNumber: item.serialNumber,
+        location: item.location
+      }
+    });
   }
 
   logout(): void {

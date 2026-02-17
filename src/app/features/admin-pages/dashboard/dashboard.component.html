@@ -1,100 +1,227 @@
-<div class="dashboard-container">
-  <app-sidebar></app-sidebar>
+<div class="page">
+  <header class="topbar">
+    <div class="brand">
+      <img src="/assets/WhatsApp_Image_2026-02-13_at_2.30.20_PM-removebg-preview.png" alt="Lab Equipment Logo" class="brand-logo">
+      <div class="brand-title">Lab Equipment Admin</div>
+    </div>
 
- <div class="main-content">
-  <app-appbar [username]="'roayaaa'" [role]="'Admin'"></app-appbar>
+    <div class="topbar-actions">
+      <div class="user" routerLink="/profile" style="cursor: pointer;">
+        <span class="user-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M20 21a8 8 0 10-16 0" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+            <path d="M12 12a4 4 0 100-8 4 4 0 000 8z" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+              stroke-linejoin="round" />
+          </svg>
+        </span>
+        <span class="user-name">roayaaa</span>
+      </div>
+      <button class="logout" type="button">Logout</button>
+    </div>
+  </header>
 
-  <!-- Welcome Section -->
-  <section class="welcome">
-    <h2>Welcome back, roayaaa! 👋</h2>
-    <p>Here's an overview of your lab equipment inventory</p>
-    <button class="add-btn" (click)="openAddForm()">+ Add Equipment</button>
-  </section>
+  <nav class="tabs">
+    <a class="tab active">Dashboard</a>
+    <a class="tab" routerLink="/users" routerLinkActive="active">Users</a>
+    <a class="tab" routerLink="/requests" routerLinkActive="active">Requests</a>
+  </nav>
+
+  <main class="content">
+    <!-- Welcome Section -->
+    <section class="welcome">
+      <div class="heading">
+        <h2>Welcome back, roayaaa! 👋</h2>
+        <p>Here's an overview of your lab equipment inventory</p>
+      </div>
+      <button class="add-btn" (click)="openAddForm()">
+        <span class="add-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 5v14" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+            <path d="M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+          </svg>
+        </span>
+        Add Equipment
+      </button>
+    </section>
+
     <!-- Stats Section -->
     <section class="stats">
       <div class="stat-card total">
-        <h3>Total Equipment</h3>
-        <span>{{totalEquipment}}</span>
+        <div class="stat-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </div>
+        <div class="stat-content">
+          <h3>Total Equipment</h3>
+          <span>{{totalEquipment}}</span>
+        </div>
       </div>
       <div class="stat-card available">
-        <h3>Available</h3>
-        <span>{{available}}</span>
+        <div class="stat-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M9 12l2 2 4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+            <path d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </div>
+        <div class="stat-content">
+          <h3>Available</h3>
+          <span>{{available}}</span>
+        </div>
       </div>
       <div class="stat-card in-use">
-        <h3>In Use</h3>
-        <span>{{inUse}}</span>
+        <div class="stat-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 2v6m0 4v10m0-4l-3-3m3 3l3-3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </div>
+        <div class="stat-content">
+          <h3>In Use</h3>
+          <span>{{inUse}}</span>
+        </div>
       </div>
       <div class="stat-card maintenance">
-        <h3>Maintenance</h3>
-        <span>{{maintenance}}</span>
+        <div class="stat-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+            <path d="M12 9v4m0 4h.01" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </div>
+        <div class="stat-content">
+          <h3>Maintenance</h3>
+          <span>{{maintenance}}</span>
+        </div>
       </div>
     </section>
 
-    <!-- Equipment Table -->
-    <section class="equipment-table">
-      <input type="text" placeholder="Search by name, serial number, or location..." [(ngModel)]="searchTerm">
+    <!-- Equipment Section -->
+    <section class="equipment">
+      <div class="heading">
+        <h2>Equipment Management</h2>
+        <p>Manage and monitor all lab equipment</p>
+      </div>
 
-      <table>
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Category</th>
-            <th>Serial Number</th>
-            <th>Location</th>
-            <th>Condition</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let eq of filteredEquipments">
-            <td>{{eq.name}}</td>
-            <td>{{eq.category}}</td>
-            <td>{{eq.serialNumber}}</td>
-            <td>{{eq.location}}</td>
-            <td>
-              <span [ngClass]="{
-                'available': eq.condition === 'Available',
-                'in-use': eq.condition === 'In Use',
-                'maintenance': eq.condition === 'Under Repair'
-              }">{{eq.condition}}</span>
-            </td>
-            <td>
-              <button class="edit" (click)="openEditForm(eq)">✏️</button>
-              <button class="delete" (click)="deleteEquipment(eq)">🗑️</button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+      <div class="filters">
+        <div class="search">
+          <span class="search-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M11 19a8 8 0 100-16 8 8 0 000 16z" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round" />
+              <path d="M21 21l-4.3-4.3" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+            </svg>
+          </span>
+          <input type="text" placeholder="Search equipment by name, serial number, or location..." [(ngModel)]="searchTerm" />
+        </div>
+      </div>
+
+      <div class="grid">
+        <article class="card" *ngFor="let eq of filteredEquipments; trackBy: trackBySerial">
+          <div class="card-top">
+            <div class="cube" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 2l8 4.5v11L12 22l-8-4.5v-11L12 2z" stroke="currentColor" stroke-width="2"
+                  stroke-linejoin="round" />
+                <path d="M12 2v20" stroke="currentColor" stroke-width="2" />
+                <path d="M4 6.5l8 4.5 8-4.5" stroke="currentColor" stroke-width="2" stroke-linejoin="round" />
+              </svg>
+            </div>
+            <span class="badge" [ngClass]="{
+                available: eq.condition === 'Available',
+                inUse: eq.condition === 'In Use',
+                repair: eq.condition === 'Under Repair'
+              }">
+              {{ eq.condition }}
+            </span>
+          </div>
+
+          <h3 class="name">{{ eq.name }}</h3>
+
+          <div class="meta">
+            <div class="meta-row">
+              <span class="meta-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M20 13l-7 7-11-11V2h7l11 11z" stroke="currentColor" stroke-width="2"
+                    stroke-linejoin="round" />
+                  <path d="M7.5 7.5h.01" stroke="currentColor" stroke-width="4" stroke-linecap="round" />
+                </svg>
+              </span>
+              <span>{{ eq.category }}</span>
+            </div>
+            <div class="meta-row">
+              <span class="meta-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M12 22s7-5.2 7-12a7 7 0 10-14 0c0 6.8 7 12 7 12z" stroke="currentColor" stroke-width="2"
+                    stroke-linejoin="round" />
+                  <path d="M12 11a2 2 0 100-4 2 2 0 000 4z" stroke="currentColor" stroke-width="2"
+                    stroke-linejoin="round" />
+                </svg>
+              </span>
+              <span>{{ eq.location }}</span>
+            </div>
+            <div class="meta-row">
+              <span class="meta-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+              </span>
+              <span>{{ eq.serialNumber }}</span>
+            </div>
+          </div>
+
+          <div class="actions">
+            <button class="btn secondary" type="button" (click)="openEditForm(eq)">
+              <span class="btn-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                  <path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+              </span>
+              Edit
+            </button>
+
+            <button class="btn danger" type="button" (click)="deleteEquipment(eq)">
+              <span class="btn-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M3 6h18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                  <path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+              </span>
+              Delete
+            </button>
+          </div>
+        </article>
+      </div>
     </section>
+  </main>
 
-   <!-- Add/Edit Popup Modal -->
-<section class="equipment-form" *ngIf="isAddingEquipment || editingEquipment">
-  <form (ngSubmit)="editingEquipment ? updateEquipment() : addEquipment()">
-    <h3>{{ editingEquipment ? 'Edit Equipment' : 'Add New Equipment' }}</h3>
+  <!-- Add/Edit Popup Modal -->
+  <section class="equipment-form" *ngIf="isAddingEquipment || editingEquipment">
+    <form (ngSubmit)="editingEquipment ? updateEquipment() : addEquipment()">
+      <h3>{{ editingEquipment ? 'Edit Equipment' : 'Add New Equipment' }}</h3>
 
-    <label>Name:</label>
-    <input type="text" [(ngModel)]="formData.name" name="name" required>
+      <label>Name:</label>
+      <input type="text" [(ngModel)]="formData.name" name="name" required>
 
-    <label>Category:</label>
-    <input type="text" [(ngModel)]="formData.category" name="category">
+      <label>Category:</label>
+      <input type="text" [(ngModel)]="formData.category" name="category">
 
-    <label>Serial Number:</label>
-    <input type="text" [(ngModel)]="formData.serialNumber" name="serialNumber" required>
+      <label>Serial Number:</label>
+      <input type="text" [(ngModel)]="formData.serialNumber" name="serialNumber" required>
 
-    <label>Location:</label>
-    <input type="text" [(ngModel)]="formData.location" name="location">
+      <label>Location:</label>
+      <input type="text" [(ngModel)]="formData.location" name="location">
 
-    <label>Condition:</label>
-    <select [(ngModel)]="formData.condition" name="condition">
-      <option value="Available">Available</option>
-      <option value="In Use">In Use</option>
-      <option value="Under Repair">Under Repair</option>
-    </select>
+      <label>Condition:</label>
+      <select [(ngModel)]="formData.condition" name="condition">
+        <option value="Available">Available</option>
+        <option value="In Use">In Use</option>
+        <option value="Under Repair">Under Repair</option>
+      </select>
 
-    <button type="submit">{{ editingEquipment ? 'Update' : 'Add' }}</button>
-    <button type="button" (click)="cancelForm()">Cancel</button>
-  </form>
-</section>
-
-  </div>
+      <div class="form-actions">
+        <button type="submit" class="btn primary">{{ editingEquipment ? 'Update' : 'Add' }}</button>
+        <button type="button" class="btn secondary" (click)="cancelForm()">Cancel</button>
+      </div>
+    </form>
+  </section>
 </div>

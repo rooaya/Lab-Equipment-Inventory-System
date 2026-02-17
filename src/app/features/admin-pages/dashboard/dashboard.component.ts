@@ -79,6 +79,10 @@ export class DashboardComponent {
     this.editingEquipment = null;
     this.formData = { name: '', category: '', serialNumber: '', location: '', condition: 'Available' };
   }
+
+  trackBySerial(_: number, item: Equipment): string {
+    return item.serialNumber;
+  }
 }
 
 
