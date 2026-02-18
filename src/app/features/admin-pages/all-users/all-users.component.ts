@@ -14,7 +14,7 @@ export class AllUsersComponent {
   roleFilter = '';
   showUserModal = false;
   editingUser: User | null = null;
-  
+
   userForm = {
     fullName: '',
     email: '',
@@ -54,13 +54,13 @@ export class AllUsersComponent {
 
   get filteredUsers(): User[] {
     return this.users.filter(user => {
-      const matchesSearch = !this.searchTerm || 
+      const matchesSearch = !this.searchTerm ||
         user.fullName.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
         user.email.toLowerCase().includes(this.searchTerm.toLowerCase());
-      
+
       const matchesStatus = !this.statusFilter || user.status === this.statusFilter;
       const matchesRole = !this.roleFilter || user.role === this.roleFilter;
-      
+
       return matchesSearch && matchesStatus && matchesRole;
     });
   }
@@ -86,7 +86,7 @@ export class AllUsersComponent {
     this.userForm = {
       fullName: '',
       email: '',
-      role: 'User',
+      role: 'Admin' as 'Admin' | 'User',
       status: 'Active'
     };
     this.showUserModal = true;

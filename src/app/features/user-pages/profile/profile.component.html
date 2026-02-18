@@ -1,7 +1,7 @@
 <div class="page">
   <header class="topbar">
     <div class="brand">
-      <div class="brand-icon">🔬</div>
+      <img src="logo.png" alt="Lab Equipment Logo" class="brand-logo">
       <div class="brand-title">Lab Equipment</div>
     </div>
 
@@ -61,7 +61,7 @@
         <div class="fields">
           <div class="field">
             <label>Full Name</label>
-            <div class="input">
+            <div class="input" [class.editing]="editing">
               <span class="icon" aria-hidden="true">
                 <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M20 21a8 8 0 10-16 0" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
@@ -75,7 +75,7 @@
 
           <div class="field">
             <label>Email Address</label>
-            <div class="input">
+            <div class="input" [class.editing]="editing">
               <span class="icon" aria-hidden="true">
                 <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M4 6h16v12H4V6z" stroke="currentColor" stroke-width="2" stroke-linejoin="round" />

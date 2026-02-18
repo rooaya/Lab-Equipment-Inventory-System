@@ -1,16 +1,7 @@
 <div class="page">
   <header class="topbar">
     <div class="brand">
-      <div class="brand-icon" aria-hidden="true">
-        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M10 2h4" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
-          <path d="M12 2v6" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
-          <path d="M7 22h10" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
-          <path d="M8 16l2.5-7.5h3L16 16" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-            stroke-linejoin="round" />
-          <path d="M9 19h6" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
-        </svg>
-      </div>
+      <img src="logo.png" alt="Lab Equipment Logo" class="brand-logo">
       <div class="brand-title">Lab Equipment</div>
     </div>
 
@@ -117,9 +108,9 @@
               View Details
             </button>
 
-            <button class="btn primary" type="button" [disabled]="item.condition !== 'Available'"
+            <button class="btn primary" type="button" [disabled]="item.condition !== 'Available' || isRequested(item)"
               (click)="requestEquipment(item)">
-              Request
+              {{ isRequested(item) ? 'Requested' : 'Request' }}
             </button>
           </div>
         </article>

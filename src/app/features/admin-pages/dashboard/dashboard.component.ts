@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { Equipment } from '../../../core/models/equipment';
-import { SidebarComponent } from '../../../shared/components/sidebar/sidebar.component';
 import { FormsModule } from '@angular/forms';
 import { EquipmentService } from '../../../core/services/equipment-store.service';
 
@@ -38,7 +37,7 @@ export class DashboardComponent {
     );
   }
 
-    deleteEquipment(equipment: Equipment) {
+  deleteEquipment(equipment: Equipment) {
     if (confirm(`Are you sure you want to delete ${equipment.name}?`)) {
       this.equipmentService.removeBySerialNumber(equipment.serialNumber);
     }

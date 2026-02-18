@@ -24,6 +24,8 @@ export class HomeComponent {
   dialogShowCancel = false;
   private dialogOnConfirm: (() => void) | null = null;
 
+  requestedEquipment = new Set<string>();
+
   constructor(private readonly equipmentService: EquipmentService, private router: Router) { }
 
   get equipments(): Equipment[] {
@@ -71,15 +73,15 @@ export class HomeComponent {
       return;
     }
 
-    // Navigate to requests page with equipment details
-    this.router.navigate(['/requests'], { 
-      queryParams: {
-        equipmentName: item.name,
-        category: item.category,
-        serialNumber: item.serialNumber,
-        location: item.location
-      }
-    });
+    // Mark equipment as requested
+    this.requestedEquipment.add(item.serialNumber);
+
+    // Show success dialog
+    this.openInfoDialog('Request Sent', `Your request for ${item.name} has been successfully submitted.`);
+  }
+
+  isRequested(item: Equipment): boolean {
+    return this.requestedEquipment.has(item.serialNumber);
   }
 
   logout(): void {
