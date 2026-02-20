@@ -12,6 +12,8 @@ import { UserProfileComponent } from './features/user-pages/profile/profile.comp
 import { DialogComponent } from './shared/components/dialog/dialog.component';
 import { RequestsComponent } from './features/admin-pages/requests/requests.component';
 import { DashboardComponent } from './features/admin-pages/dashboard/dashboard.component';
+import { LoginComponent } from './features/auth/login/login.component';
+import { SignupComponent } from './features/auth/signup/signup.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -21,7 +23,9 @@ import { DashboardComponent } from './features/admin-pages/dashboard/dashboard.c
     HomeComponent,
     UserProfileComponent,
     DialogComponent,
-    RequestsComponent
+    RequestsComponent,
+    LoginComponent,
+    SignupComponent
 
   ],
   imports: [
