@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { User } from '../../../core/models/user';
+import { AuthService } from '../../../core/services/auth.service';
 
 @Component({
   selector: 'app-user-profile',
@@ -7,7 +8,7 @@ import { User } from '../../../core/models/user';
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.css'
 })
-export class UserProfileComponent {
+export class UserProfileComponent implements OnInit {
   dialogOpen = false;
   dialogTitle = '';
   dialogMessage = '';
@@ -34,6 +35,24 @@ export class UserProfileComponent {
     status: this.user.status
   };
 
+  constructor(private authService: AuthService) { }
+
+  ngOnInit(): void {
+    this.loadUserData();
+  }
+
+  private loadUserData(): void {
+    const savedUser = this.authService.getCurrentUser();
+    if (savedUser) {
+      this.user = savedUser;
+      this.form = {
+        fullName: savedUser.fullName,
+        email: savedUser.email,
+        status: savedUser.status
+      };
+    }
+  }
+
   startEdit(): void {
     this.editing = true;
     this.form = {
@@ -51,8 +70,16 @@ export class UserProfileComponent {
     this.user.fullName = this.form.fullName;
     this.user.email = this.form.email;
     this.user.status = this.form.status;
+
+    // Save updated user data to local storage
+    this.authService.updateUser({
+      fullName: this.user.fullName,
+      email: this.user.email,
+      status: this.user.status
+    });
+
     this.editing = false;
-    this.openInfoDialog('Profile Updated', 'Profile updated (local only).');
+    this.openInfoDialog('Profile Updated', 'Profile updated successfully.');
   }
 
   currentPassword = '';
@@ -76,8 +103,16 @@ export class UserProfileComponent {
   }
 
   updatePassword(): void {
+    const currentUser = this.authService.getCurrentUser();
+
     if (this.currentPassword.length === 0) {
       this.openInfoDialog('Update Password', 'Please enter your current password.');
+      return;
+    }
+
+    // Validate current password against stored password
+    if (currentUser && this.currentPassword !== currentUser.password) {
+      this.openInfoDialog('Update Password', 'Current password is incorrect.');
       return;
     }
 
@@ -91,15 +126,27 @@ export class UserProfileComponent {
       return;
     }
 
+    // Update user password in memory and local storage
     this.user.password = this.newPassword;
+    this.authService.updateUser({ password: this.newPassword });
+
+    // Clear form fields
     this.currentPassword = '';
     this.newPassword = '';
     this.confirmNewPassword = '';
-    this.openInfoDialog('Password Updated', 'Password updated (local only).');
+
+    // Show success message and logout
+    this.openInfoDialog('Password Updated', 'Password updated successfully. You will be logged out for security.');
+
+    // Auto logout after 2 seconds for security
+    setTimeout(() => {
+      this.authService.logout();
+    }, 2000);
   }
 
   logout(): void {
     this.openConfirmDialog('Logout', 'Are you sure you want to logout?', () => {
+      this.authService.logout();
       this.openInfoDialog('Logout', 'Logging out...');
     });
   }

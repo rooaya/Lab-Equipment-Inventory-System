@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { User } from '../../../core/models/user';
+import { AuthService } from '../../../core/services/auth.service';
 
 @Component({
   selector: 'app-profile',
@@ -6,16 +8,34 @@ import { Component } from '@angular/core';
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.css'
 })
-export class ProfileComponent {
-  profile = {
-    fullName: 'roayaaa',
-    email: 'roayaaa@example.com',
-    role: 'Admin',
-    currentPassword: '',
-    newPassword: '',
-    confirmPassword: '',
-    imageUrl: '' as string | ArrayBuffer | null
+export class ProfileComponent implements OnInit {
+  profile: User = {
+    id: 0,
+    fullName: '',
+    email: '',
+    password: '',
+    status: 'Active',
+    dateJoined: new Date(),
+    role: 'Admin'
   };
+
+  currentPassword = '';
+  newPassword = '';
+  confirmPassword = '';
+  imageUrl = '' as string | ArrayBuffer | null;
+
+  constructor(private authService: AuthService) { }
+
+  ngOnInit(): void {
+    this.loadProfileData();
+  }
+
+  private loadProfileData(): void {
+    const currentUser = this.authService.getCurrentUser();
+    if (currentUser) {
+      this.profile = currentUser;
+    }
+  }
 
   onImageSelected(event: Event) {
     const input = event.target as HTMLInputElement;
@@ -28,43 +48,69 @@ export class ProfileComponent {
 
     const reader = new FileReader();
     reader.onload = () => {
-      this.profile.imageUrl = reader.result;
+      this.imageUrl = reader.result;
     };
     reader.readAsDataURL(file);
   }
 
-  triggerFileInput(input: HTMLInputElement) {
-    input.click();
-  }
+  saveProfile(): void {
+    // Update profile data in local storage
+    this.authService.updateUser({
+      fullName: this.profile.fullName,
+      email: this.profile.email,
+      status: this.profile.status
+    });
 
-  saveProfile() {
-    // Logic to save profile changes
     console.log('Profile saved:', this.profile);
   }
 
-  updatePassword() {
-    // Logic to update password
-    if (this.profile.newPassword !== this.profile.confirmPassword) {
-      alert('New passwords do not match!');
-      return;
-    }
-    
-    if (!this.profile.currentPassword || !this.profile.newPassword) {
+  updatePassword(): void {
+    // Validate password fields
+    if (this.currentPassword.length === 0 || this.newPassword.length === 0) {
       alert('Please fill in all password fields!');
       return;
     }
 
+    if (this.newPassword !== this.confirmPassword) {
+      alert('New passwords do not match!');
+      return;
+    }
+
+    // Validate password requirements
+    if (!this.meetsRequirement('length') || !this.meetsRequirement('case') || !this.meetsRequirement('number')) {
+      alert('Password must be at least 8 characters with uppercase, lowercase, and numbers!');
+      return;
+    }
+
+    // Get current user to validate current password
+    const currentUser = this.authService.getCurrentUser();
+    if (currentUser && this.currentPassword !== currentUser.password) {
+      alert('Current password is incorrect!');
+      return;
+    }
+
+    // Update password in local storage
+    this.authService.updateUser({ password: this.newPassword });
+    this.profile.password = this.newPassword;
+
     console.log('Password updated');
+
     // Clear password fields
-    this.profile.currentPassword = '';
-    this.profile.newPassword = '';
-    this.profile.confirmPassword = '';
+    this.currentPassword = '';
+    this.newPassword = '';
+    this.confirmPassword = '';
+
+    alert('Password updated successfully!');
+  }
+
+  logout(): void {
+    this.authService.logout();
   }
 
   meetsRequirement(type: string): boolean {
-    const password = this.profile.newPassword;
-    
-    switch(type) {
+    const password = this.newPassword;
+
+    switch (type) {
       case 'length':
         return password.length >= 8;
       case 'case':

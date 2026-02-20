@@ -10,7 +10,7 @@ export class AuthService {
   private users: User[] = [];
 
   private staticAdmin: User = {
-    id: 1,
+    id: 0,
     fullName: 'Administrator',
     email: 'Admin101@gmail.com',
     password: 'Admin1234',
@@ -46,7 +46,7 @@ export class AuthService {
 
     // Admin Login
     if (email === this.staticAdmin.email &&
-        password === this.staticAdmin.password) {
+      password === this.staticAdmin.password) {
 
       localStorage.setItem('currentUser', JSON.stringify(this.staticAdmin));
       return true;
@@ -82,5 +82,25 @@ export class AuthService {
   hasRole(role: 'Admin' | 'User'): boolean {
     const user = this.getCurrentUser();
     return user?.role === role;
+  }
+
+  // Update current user data in local storage
+  updateUser(updates: Partial<User>): void {
+    const currentUser = this.getCurrentUser();
+    if (currentUser) {
+      const updatedUser = { ...currentUser, ...updates };
+
+      // Update currentUser in local storage
+      localStorage.setItem('currentUser', JSON.stringify(updatedUser));
+
+      // Also update the user in the users array if it's a regular user
+      if (currentUser.role === 'User') {
+        const userIndex = this.users.findIndex(u => u.id === currentUser.id);
+        if (userIndex !== -1) {
+          this.users[userIndex] = updatedUser;
+          localStorage.setItem('users', JSON.stringify(this.users));
+        }
+      }
+    }
   }
 }

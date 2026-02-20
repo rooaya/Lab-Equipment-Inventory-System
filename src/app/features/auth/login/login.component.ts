@@ -16,7 +16,7 @@ export class LoginComponent {
   constructor(
     private router: Router,
     private authService: AuthService
-  ) {}
+  ) { }
 
   login(): void {
     // Use AuthService for authentication
@@ -29,9 +29,9 @@ export class LoginComponent {
 
     // Get current user and navigate based on role
     const user = this.authService.getCurrentUser();
-    
+
     if (user?.role === 'Admin') {
-      this.router.navigate(['/dashboard']);
+      this.router.navigate(['/admin']);
     } else {
       this.router.navigate(['/home']);
     }

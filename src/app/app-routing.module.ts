@@ -11,11 +11,11 @@ import { AuthGuard } from './core/guarde/auth.guard';
 import { SignupComponent } from './features/auth/signup/signup.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'login', pathMatch: 'full'},
+  { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
   { path: 'signup', component: SignupComponent },
 
-  // User routes (accessible to regular users)
+  // Admin routes (only accessible to Admin role)
   {
     path: 'admin',
     component: DashboardComponent,
@@ -23,19 +23,40 @@ const routes: Routes = [
     data: { role: 'Admin' }
   },
   {
+    path: 'users',
+    component: AllUsersComponent,
+    canActivate: [AuthGuard],
+    data: { role: 'Admin' }
+  },
+  {
+    path: 'profile',
+    component: ProfileComponent,
+    canActivate: [AuthGuard],
+    data: { role: 'Admin' }
+  },
+  {
+    path: 'requests',
+    component: RequestsComponent,
+    canActivate: [AuthGuard],
+    data: { role: 'Admin' }
+  },
+
+  // User routes (only accessible to User role)
+  {
     path: 'user',
     component: HomeComponent,
     canActivate: [AuthGuard],
     data: { role: 'User' }
   },
   {
-    path: 'home', component: HomeComponent },
-  { path: 'user-profile', component: UserProfileComponent },
-  { path: 'dashboard', component: DashboardComponent },
-  { path: 'users', component: AllUsersComponent },
-  { path: 'profile', component: ProfileComponent },
-  { path: 'add', component: RequestsComponent },
-  { path: 'requests', component: RequestsComponent, canActivate: [AuthGuard], data: { role: 'Admin' } }
+    path: 'user-profile',
+    component: UserProfileComponent,
+    canActivate: [AuthGuard],
+    data: { role: 'User' }
+  },
+
+  // Public routes (no auth guard required)
+  { path: 'home', component: HomeComponent }
 ];
 
 @NgModule({

@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { Equipment } from '../../../core/models/equipment';
 import { EquipmentService } from '../../../core/services/equipment-store.service';
+import { AuthService } from '../../../core/services/auth.service';
 
 type EquipmentCondition = Equipment['condition'];
 
@@ -26,7 +27,7 @@ export class HomeComponent {
 
   requestedEquipment = new Set<string>();
 
-  constructor(private readonly equipmentService: EquipmentService, private router: Router) { }
+  constructor(private readonly equipmentService: EquipmentService, private router: Router, private authService: AuthService) { }
 
   get equipments(): Equipment[] {
     return this.equipmentService.getAll();
@@ -86,7 +87,7 @@ export class HomeComponent {
 
   logout(): void {
     this.openConfirmDialog('Logout', 'Are you sure you want to logout?', () => {
-      this.openInfoDialog('Logout', 'Logging out...');
+      this.authService.logout();
     });
   }
 

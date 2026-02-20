@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { User } from '../../../core/models/user';
+import { AuthService } from '../../../core/services/auth.service';
 
 @Component({
   selector: 'app-all-users',
@@ -14,6 +15,12 @@ export class AllUsersComponent {
   roleFilter = '';
   showUserModal = false;
   editingUser: User | null = null;
+
+  constructor(private authService: AuthService) { }
+
+  logout(): void {
+    this.authService.logout();
+  }
 
   userForm = {
     fullName: '',

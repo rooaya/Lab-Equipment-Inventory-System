@@ -16,12 +16,12 @@
         </span>
         <span class="user-name">roaya youssef</span>
       </div>
-      <button class="logout" type="button">Logout</button>
+      <button class="logout" type="button" (click)="logout()">Logout</button>
     </div>
   </header>
 
   <nav class="tabs">
-    <a class="tab" routerLink="/dashboard" routerLinkActive="active">Dashboard</a>
+    <a class="tab" routerLink="/admin" routerLinkActive="active">Dashboard</a>
     <a class="tab active" routerLink="/users" routerLinkActive="active">Users</a>
     <a class="tab" routerLink="/requests" routerLinkActive="active">Requests</a>
   </nav>

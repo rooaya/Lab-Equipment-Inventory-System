@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Equipment } from '../../../core/models/equipment';
 import { FormsModule } from '@angular/forms';
 import { EquipmentService } from '../../../core/services/equipment-store.service';
+import { AuthService } from '../../../core/services/auth.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -15,7 +16,11 @@ export class DashboardComponent {
   formData: Equipment = { name: '', category: '', serialNumber: '', location: '', condition: 'Available' };
   isAddingEquipment: boolean = false;
 
-  constructor(private readonly equipmentService: EquipmentService) { }
+  constructor(private readonly equipmentService: EquipmentService, private authService: AuthService) { }
+
+  logout(): void {
+    this.authService.logout();
+  }
 
   get equipments(): Equipment[] {
     return this.equipmentService.getAll();
